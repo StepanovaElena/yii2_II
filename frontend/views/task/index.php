@@ -3,6 +3,7 @@
 use yii\helpers\Html;
 use yii\grid\GridView;
 
+\dmstr\web\AdminLteAsset::register($this);
 /* @var $this yii\web\View */
 /* @var $searchModel frontend\models\TaskSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */

@@ -12,5 +12,9 @@ return [
         'authManager' => [
             'class' => 'yii\rbac\DbManager',
         ],
+        'task' => [
+            'class' => \common\components\TaskComponent::class,
+            'classEntity' => \common\models\Tasks::class
+        ],
     ],
 ];
