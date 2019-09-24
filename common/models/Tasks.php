@@ -2,6 +2,7 @@
 
 namespace common\models;
 
+use common\behaviors\ProjectTitleBehavior;
 use common\behaviors\UsernameBehavior;
 use Yii;
 
@@ -26,7 +27,7 @@ use Yii;
  */
 class Tasks extends TasksBase
 {
-    const EVENT_ADD_ROLE = 'add_task';
+    const EVENT_ADD_TASK = 'add_task';
 
 
     public function beforeValidate()
@@ -49,7 +50,7 @@ class Tasks extends TasksBase
             $this->addError('completed_at', 'Дата завершения не может быть раньше даты начала события!');
         }
 
-        $today = (date('Y-m-d'));
+        $today = (date('d.m.Y'));
 
         if ($date < $today) {
             $this->addError('started_at', 'Дата начала не может быть в прошлом!');
@@ -84,7 +85,8 @@ class Tasks extends TasksBase
     public function behaviors()
     {
         return [
-             ['class' => UsernameBehavior::class, 'attribute' => 'created_by']
+             ['class' => UsernameBehavior::class, 'attribute' => 'created_by'],
+             ['class' => ProjectTitleBehavior::class, 'attribute' => 'project_id']
         ];
     }
 

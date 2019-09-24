@@ -70,6 +70,7 @@ class RbacAdditionController extends Controller
         $auth->addChild($user, $editProject);
         $auth->addChild($user, $createViewOwnerProjects);
         $auth->addChild($user, $createViewManagerProjects);
+        $auth->addChild($user, $createViewOwnerTasks);
 
         // добавляем роль "admin"
         // а также все разрешения роли "user"

@@ -10,6 +10,7 @@ use backend\modules\profiles\services\contracts\ProfileStorage;
 use backend\modules\profiles\services\dto\ProfileEditStorageDTO;
 use backend\modules\profiles\services\dto\ProfileSaveStorageDTO;
 use Ramsey\Uuid\Uuid;
+use yii\base\Event;
 use yii\log\Logger;
 
 class ProfileService implements \backend\modules\profiles\services\contracts\ProfileService
@@ -32,11 +33,9 @@ class ProfileService implements \backend\modules\profiles\services\contracts\Pro
 
     public function createProfile(ProfileCreateForm &$model)//: ?Profile
     {
-        $model->on(/**
-         * @param Event $event
-         */ function (Event $event) {
-            $this->logger->log($event->name);
-        }, $model::EVENT_USER_EXIST);
+        $model->on($model::EVENT_USER_EXIST, function (Event $event) {
+            $this->logger->log('send email' . $event->name);
+        });
 
         if (!$model->validate()) {
             return null;
@@ -47,6 +46,7 @@ class ProfileService implements \backend\modules\profiles\services\contracts\Pro
         }
         $dto = $this->generateDtoFromCreateForm($model);
         if ($profile = $this->storage->save($dto)) {
+            \Yii::$app->rbac->addUserRole($profile->getId());
             return $profile;
         } else {
             return null;

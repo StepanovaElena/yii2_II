@@ -2,6 +2,8 @@
 
 namespace common\rules;
 
+use common\models\Participants;
+use common\models\Projects;
 use common\models\Tasks;
 use yii\helpers\ArrayHelper;
 use yii\rbac\Item;
@@ -28,12 +30,15 @@ class ManagerProjectRule extends Rule
         if (!$tasks) {
             throw new \Exception('Need tasks param in rule');
         }
-        $project = $tasks->getProject();
-        $participants = $project->getPartipants();
+
+        /** @var Participants $participants */
+        $participants = Participants::find()->andWhere(['project_id' => $tasks->project_id])->all();
+
         foreach ($participants as $person) {
-            if ($person->user_id == $user and  $person->role == 'manager') {
+            if ($person->user_id == $user &&  $person->role == 'manager') {
                 return true;
             }
         }
+        return false;
     }
 }

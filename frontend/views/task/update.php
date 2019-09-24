@@ -18,6 +18,7 @@ $this->params['breadcrumbs'][] = Yii::t('app', 'Update');
 <div class="box box-danger">
     <div class="box-header">
         <h3 class="box-title"><?= Html::encode($this->title) ?></h3>
+        <p class="text-muted">Created at: <?= $model->created_at ?> by <?= $model->getUsername()?></p>
     </div>
     <div class="box-body">
         <?= $this->render('_form_update', [

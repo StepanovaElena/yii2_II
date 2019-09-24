@@ -33,7 +33,7 @@ $this->params['breadcrumbs'][] = $this->title;
             'executor_id',
             'started_at',
             //'completed_at',
-            //'created_by',
+            'created_by',
             //'updated_by',
             //'created_at',
             //'updated_at',

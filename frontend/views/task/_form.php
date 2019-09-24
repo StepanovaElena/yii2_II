@@ -14,11 +14,15 @@ use yii\widgets\ActiveForm;
     <div class="col-md-6">
         <?= $form->field($model, 'title')->textInput(['maxlength' => true]) ?>
         <?= $form->field($model, 'description')->textarea(['row' => 10, 'maxlength' => true]) ?>
+        <?= $form->field($model, 'created_by')->input('text', ['value' => $model->getUsername(), 'disabled' => 'disabled']) ?>
+        <?php if(!empty($model->project_id)):?>
+        <?= $form->field($model, 'project_id')->input('text', ['value' => $model->getTitle(), 'disabled' => 'disabled'])->label('Project') ?>
+        <?= $form->field($model, 'executor_id')->dropDownList(\yii\helpers\ArrayHelper::map(\common\models\Participants::find()->andWhere(['project_id' => $model->project_id])->all(), 'id', 'user_id')) ?>
+        <?php else:?>
         <?= $form->field($model, 'executor_id')->dropDownList(\yii\helpers\ArrayHelper::map(\common\models\User::find()->all(), 'id', 'username')) ?>
-        <?= $form->field($model, 'created_by')->input('text', ['disabled' => 'disabled']) ?>
         <?= $form->field($model, 'project_id')->dropDownList(\yii\helpers\ArrayHelper::map(\common\models\Projects::find()->all(), 'id', 'title')) ?>
+        <?php endif;?>
     </div>
-
     <div class="col-md-6">
         <?= $form->field($model, 'started_at')->widget(\kartik\date\DatePicker::classname(),
             [

@@ -58,12 +58,12 @@ class TaskComponent extends Component
 
     public function createTask(Tasks &$model)
     {
-        $model->on($model::EVENT_ADD_ROLE, function (Event $event) {
+        $model->on($model::EVENT_ADD_TASK, function (Event $event) {
             $this->sender->sendEmail($event->data);
         });
 
         if ($model->save()) {
-            $model->trigger($model::EVENT_ADD_ROLE);
+            $model->trigger($model::EVENT_ADD_TASK);
             return true;
         }
         return false;
@@ -77,8 +77,8 @@ class TaskComponent extends Component
         if (!$model->validate()) {
             return false;
         }
-        return $model->save();
-        //return $model->updateAttributes(['status', 'description', 'updated_by', 'updated_at']);
+
+        return $model->updateAttributes(['executor_id', 'description', 'updated_by', 'updated_at', 'completed_at']);
     }
 
     public function deleteTask(Tasks &$model)
@@ -90,12 +90,4 @@ class TaskComponent extends Component
     {
 
     }
-
-    public function getProjectTasks($id)
-    {
-        return \Yii::$app->task->getAllTasks([
-            'project_id' => $id
-        ]);
-    }
-
 }

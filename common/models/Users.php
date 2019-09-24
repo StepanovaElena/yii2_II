@@ -3,6 +3,7 @@
 namespace common\models;
 
 use Ramsey\Uuid\Uuid;
+use yii\helpers\ArrayHelper;
 
 /**
  * User model
@@ -22,12 +23,20 @@ use Ramsey\Uuid\Uuid;
  */
 class Users extends User
 {
+    const SCENARIO_PROFILE = 'profile';
 
     public function rules()
     {
         return array_merge([
             ['uuid', 'required'],
         ], parent::rules());
+    }
+
+    public function scenarios()
+    {
+        return ArrayHelper::merge(parent::scenarios(), [
+            self::SCENARIO_PROFILE => ['email'],
+        ]);
     }
 
     public function getUuid()

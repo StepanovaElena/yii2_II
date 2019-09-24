@@ -18,7 +18,7 @@ class RbacComponent extends Component
 
     public function canCreateTasks(): bool
     {
-        return \Yii::$app->user->can('createTasks');
+        return \Yii::$app->user->can('createTask');
     }
 
     public function canCreateProjects(): bool
@@ -33,9 +33,8 @@ class RbacComponent extends Component
         }
         if (\Yii::$app->user->can('createViewOwnerTasks', ['tasks' => $tasks])) {
             return true;
-        }
-
-        if (\Yii::$app->user->can('createViewManagerProject', ['tasks' => $tasks])) {
+        } else
+            if (\Yii::$app->user->can('createViewManagerProject', ['tasks' => $tasks])) {
             return true;
         }
         return false;

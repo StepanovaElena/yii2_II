@@ -39,6 +39,13 @@ return [
     'modules' => [
         'profiles' => [
             'class' => 'backend\modules\profiles\Module',
+            'components' => [
+                'profile' =>
+                    [
+                        'class' => \frontend\modules\profile\components\ProfileComponent::class,
+                        'classEntity' => \common\models\Users::class
+                    ]
+            ]
         ],
     ],
     'components' => [

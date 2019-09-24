@@ -12,6 +12,11 @@ return [
     'bootstrap' => ['log'],
     'controllerNamespace' => 'frontend\controllers',
     'language' => 'ru-RU',
+    'modules' => [
+        'profile' => [
+            'class' => 'frontend\modules\profile\Module',
+        ],
+    ],
     'components' => [
         'request' => [
             'csrfParam' => '_csrf-frontend',
@@ -41,6 +46,7 @@ return [
             'enablePrettyUrl' => true,
             'showScriptName' => false,
             'rules' => [
+                'profile/<action>' => 'profile/profile/<action>'
             ],
         ],
     ],

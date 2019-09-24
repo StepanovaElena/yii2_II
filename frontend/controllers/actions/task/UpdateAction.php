@@ -15,11 +15,20 @@ class UpdateAction extends Action
         $model = \Yii::$app->task->findModel($id);
 
         if (!$model) {
-            throw new HttpException(404, 'Activity not found!');
+            throw new HttpException(404, 'Task not found!');
         }
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->controller->redirect(['view', 'id' => $model->id]);
+        if (!\Yii::$app->rbac->canEditViewTasks($model)) {
+            throw new HttpException(403, 'You are not authorized to view this task.');
+        }
+
+        if (\Yii::$app->request->isPost) {
+
+            $model->load(\Yii::$app->request->post());
+
+            if (\Yii::$app->task->updateTask($model)) {
+                return $this->controller->redirect(['view', 'id' => $model->id]);
+            }
         }
 
         return $this->controller->render('update', [

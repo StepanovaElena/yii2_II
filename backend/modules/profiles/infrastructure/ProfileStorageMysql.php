@@ -8,6 +8,7 @@ use backend\modules\profiles\entities\Profile;
 use backend\modules\profiles\services\contracts\ProfileStorage;
 use backend\modules\profiles\services\dto\ProfileEditStorageDTO;
 use backend\modules\profiles\services\dto\ProfileSaveStorageDTO;
+use common\models\Projects;
 use yii\db\Connection;
 use yii\db\Query;
 
@@ -89,5 +90,20 @@ class ProfileStorageMysql implements ProfileStorage
             return Profile::fromDataDb($data);
         }
         return null;
+    }
+
+    public function findUserProjects(int $id)//: ?Projects
+    {
+        $query = new Query();
+       return $query->from('projects')
+            ->leftJoin('participants')
+            ->andWhere(['user_id' => $id])
+            ->orderBy(['id' => SORT_DESC])
+            ->limit(10)
+            ->all();
+        //if ($data) {
+        //    return Projects::fromDataDb($data);
+        //}
+        //return null;
     }
 }

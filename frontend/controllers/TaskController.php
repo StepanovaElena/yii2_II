@@ -9,7 +9,7 @@ use frontend\controllers\actions\task\UpdateAction;
 use frontend\controllers\actions\task\ViewAction;
 use Yii;
 use common\models\Tasks;
-use frontend\models\TaskSearch;
+use frontend\models\search\TaskSearch;
 use yii\filters\AccessControl;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;

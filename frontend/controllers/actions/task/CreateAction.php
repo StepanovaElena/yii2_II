@@ -3,20 +3,11 @@
 
 namespace frontend\controllers\actions\task;
 
-
-use common\models\Projects;
-use common\models\Tasks;
-use Yii;
 use yii\base\Action;
 use yii\web\HttpException;
 
 class CreateAction extends Action
 {
-    /**
-     * Creates a new Tasks model.
-     * If creation is successful, the browser will be redirected to the 'view' page.
-     * @return mixed
-     */
 
     public function run()
     {
@@ -24,10 +15,8 @@ class CreateAction extends Action
             throw new HttpException(403, 'Not authorisation');
         }
 
-
-
         $model = \Yii::$app->task->getEntity();
-
+        $model->project_id = \Yii::$app->request->get('project_id');
         $model->created_by = \Yii::$app->user->getId();
 
         if (\Yii::$app->request->isPost) {
@@ -39,7 +28,7 @@ class CreateAction extends Action
         }
 
         return $this->controller->render('create', [
-            'model' => $model,
+            'model' => $model
         ]);
     }
 }

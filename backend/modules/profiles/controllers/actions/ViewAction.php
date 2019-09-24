@@ -18,12 +18,17 @@ class ViewAction extends Action
         parent::__construct($id, $module, $config);
     }
 
-
-
     public function run($uuid)
     {
         $profile = $this->service->getProfileByUuid($uuid);
+        $projects = $this->service->findUserProjects($profile->id);
+        $count = count($projects);
+        //$active = $profileComponent->findActiveProjects();
+        //$tasks = $profileComponent->findUserTasks();
 
-        return $this->controller->render('view', ['profile' => $profile]);
+        return $this->controller->render('view', [
+            'profile' => $profile,
+            'count' => $count
+        ]);
     }
 }
